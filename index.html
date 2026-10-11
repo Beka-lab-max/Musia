@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мы вместе ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffd6e8 0%, #ffe4d6 50%, #e8d6ff 100%);
+    background-attachment: fixed;
+    font-family: 'Inter', sans-serif;
+    color: #4a3a52;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* ===== Плавающие сердечки ===== */
+  .bg-hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .bg-hearts span {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.4;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== Контейнер ===== */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 50px 30px;
+    box-shadow: 0 20px 60px rgba(255, 150, 200, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  /* ===== Заголовок ===== */
+  h1 {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #d63c7c;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .together-label {
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #b88aa3;
+    margin-bottom: 30px;
+  }
+
+  /* ===== Главный счётчик ===== */
+  .main-counter {
+    margin: 20px 0 40px;
+  }
+
+  .days-number {
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    display: inline-block;
+    animation: pop 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .days-label {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: #d63c7c;
+    display: block;
+    margin-top: 5px;
+  }
+
+  /* ===== Карточки времени ===== */
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+
+  .time-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 20px 10px;
+    box-shadow: 0 8px 25px rgba(214, 60, 124, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .time-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(214, 60, 124, 0.25);
+  }
+
+  .time-value {
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 700;
+    color: #d63c7c;
+    display: block;
+    margin-bottom: 5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .time-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #b88aa3;
+  }
+
+  /* ===== Дата ===== */
+  .start-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50px;
+    font-size: 0.95rem;
+    color: #a86b8a;
+    margin-bottom: 50px;
+    box-shadow: 0 5px 20px rgba(214, 60, 124, 0.1);
+  }
+
+  .start-date span:first-child {
+    font-size: 1.2rem;
+  }
+
+  /* ===== Заголовок секции ===== */
+  .section-title {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: #d63c7c;
+    margin-bottom: 20px;
+  }
+
+  /* ===== Статистика ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, #fff0f6, #f5f0ff);
+    border-radius: 20px;
+    padding: 25px 12px;
+    box-shadow: 0 8px 25px rgba(214, 60, 124, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: scale(1.05);
+  }
+
+  .stat-emoji {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .stat-value {
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-weight: 700;
+    color: #d63c7c;
+    display: block;
+    margin-bottom: 5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: #a86b8a;
+    line-height: 1.3;
+  }
+
+  /* ===== Бесконечность ===== */
+  .infinity-block {
+    margin: 30px 0;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #ffe4f0, #e8d6ff);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(214, 60, 124, 0.15);
+  }
+
+  .infinity-symbol {
+    font-size: 4rem;
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    animation: pulseInfinity 2s ease-in-out infinite;
+    line-height: 1;
+  }
+
+  @keyframes pulseInfinity {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .infinity-text {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    color: #d63c7c;
+    margin-top: 10px;
+    line-height: 1.3;
+  }
+
+  /* ===== Финал ===== */
+  .footer-text {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    color: #d63c7c;
+    margin-top: 20px;
+    line-height: 1.4;
+  }
+
+  .footer-text .heart {
+    display: inline-block;
+    animation: heartbeat 1.3s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.15); }
+  }
+
+  /* ===== Мобильная версия ===== */
+  @media (max-width: 500px) {
+    .container {
+      padding: 35px 18px;
+      border-radius: 24px;
+    }
+
+    .time-grid, .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .time-card, .stat-card {
+      padding: 15px 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-hearts" id="bgHearts"></div>
+
+<div class="container">
+  <h1>Мы вместе уже</h1>
+  <div class="together-label">и это только начало 💕</div>
+
+  <!-- Главный счётчик -->
+  <div class="main-counter">
+    <span class="days-number" id="days">0</span>
+    <span class="days-label">дней</span>
+  </div>
+
+  <!-- Часы / Минуты / Секунды -->
+  <div class="time-grid">
+    <div class="time-card">
+      <span class="time-value" id="hours">0</span>
+      <span class="time-label">часов</span>
+    </div>
+    <div class="time-card">
+      <span class="time-value" id="minutes">0</span>
+      <span class="time-label">минут</span>
+    </div>
+    <div class="time-card">
+      <span class="time-value" id="seconds">0</span>
+      <span class="time-label">секунд</span>
+    </div>
+  </div>
+
+  <!-- Дата -->
+  <div class="start-date">
+    <span>📅</span>
+    <span>с 24 апреля 2026, 21:30</span>
+  </div>
+
+  <!-- Статистика -->
+  <h2 class="section-title">За это время мы…</h2>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-emoji">🎮</span>
+      <span class="stat-value" id="roblox">0</span>
+      <span class="stat-label">часов в Roblox</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">📹</span>
+      <span class="stat-value" id="calls">10к+</span>
+      <span class="stat-label">видеозвонков</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">💬</span>
+      <span class="stat-value" id="messages">0</span>
+      <span class="stat-label">сообщений</span>
+    </div>
+  </div>
+
+  <!-- Бесконечность воспоминаний -->
+  <div class="infinity-block">
+    <span class="infinity-symbol">∞</span>
+    <p class="infinity-text">Бесконечность воспоминаний<br>и ещё больше впереди</p>
+  </div>
+
+  <!-- Финал -->
+  <p class="footer-text">
+    И это только начало <span class="heart">❤️</span>
+  </p>
+</div>
+
+<script>
+  /* ============================================
+     ДАТА НАЧАЛА ОТНОШЕНИЙ
+     Формат: new Date(год, месяц_с_нуля, день, часы, минуты)
+     Апрель = 3 (январь = 0, февраль = 1, март = 2, апрель = 3)
+     ============================================ */
+  const START_DATE = new Date(2026, 3, 24, 21, 30, 0); // 24 апреля 2026, 21:30
+
+  /* ============================================
+     НАСТРОЙКИ СТАТИСТИКИ
+     ============================================ */
+  const STATS = {
+    robloxPerDay:   2,     // часов в Roblox в день
+    messagesPerDay: 100    // сообщений в день
+  };
+
+  /* ============================================
+     ФОРМАТИРОВАНИЕ ЧИСЕЛ
+     ============================================ */
+  function formatNumber(num) {
+    return Math.floor(num).toLocaleString('ru-RU');
+  }
+
+  /* ============================================
+     ОБНОВЛЕНИЕ СЧЁТЧИКА
+     ============================================ */
+  function updateCounter() {
+    const now = new Date();
+    const diff = now - START_DATE;
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalDays = Math.floor(totalHours / 24);
+
+    document.getElementById('days').textContent = formatNumber(totalDays);
+    document.getElementById('hours').textContent = formatNumber(totalHours);
+    document.getElementById('minutes').textContent = formatNumber(totalMinutes);
+    document.getElementById('seconds').textContent = formatNumber(totalSeconds);
+
+    // Roblox
+    document.getElementById('roblox').textContent =
+      formatNumber(totalDays * STATS.robloxPerDay);
+
+    // Сообщения
+    document.getElementById('messages').textContent =
+      formatNumber(totalDays * STATS.messagesPerDay);
+
+    // Видеозвонки — фиксированно "10к+"
+    // (ничего не считаем, стоит в HTML)
+  }
+
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  /* ============================================
+     ПЛАВАЮЩИЕ СЕРДЕЧКИ
+     ============================================ */
+  const heartsContainer = document.getElementById('bgHearts');
+  const heartEmojis = ['❤️', '💕', '💖', '💗', '💓', '🌸', '✨', '💌'];
+
+  function createHeart() {
+    const heart = document.createElement('span');
+    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+    heart.style.animationDuration = (Math.random() * 8 + 8) + 's';
+    heart.style.animationDelay = Math.random() * 5 + 's';
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 20000);
+  }
+
+  setInterval(createHeart, 1500);
+  for (let i = 0; i < 8; i++) {
+    setTimeout(createHeart, i * 300);
+  }
+</script>
+
+</body>
+</html>
